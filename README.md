@@ -1,38 +1,38 @@
 # PDF Document Analysis API
 
-Outil d'analyse structurelle de documents PDF avec extraction automatique d'éléments (titres, sections, tableaux, images) et calcul de statistiques détaillées.
+Structural analysis tool for PDF documents with automatic element extraction (titles, sections, tables, images) and detailed statistics calculation.
 
-## 📋 Fonctionnalités
+## 📋 Features
 
-- **Extraction d'éléments** : Titres, sous-titres, sections, paragraphes, listes, tableaux, images
-- **Base de données relationnelle** : Stockage SQLite avec schéma optimisé
-- **API REST complète** : Endpoints pour ingestion, consultation et export
-- **Statistiques avancées** : Métriques par document et globales
-- **Export de données** : CSV pour tableaux, JSON pour métadonnées
+- **Element Extraction**: Titles, subtitles, sections, paragraphs, lists, tables, images
+- **Relational Database**: SQLite storage with optimized schema
+- **Complete REST API**: Endpoints for ingestion, retrieval, and export
+- **Advanced Statistics**: Per-document and global metrics
+- **Data Export**: CSV for tables, JSON for metadata
 
-## 🚀 Installation et Exécution
+## 🚀 Installation and Execution
 
-### Prérequis
+### Prerequisites
 - Python 3.8+
-- pip ou conda
+- pip or conda
 
-### Installation des dépendances avec pip
+### Installing dependencies with pip
 ```bash
 pip install -r requirements.txt
 ```
 
-### Lancement de l'API
+### Launching the API
 ```bash
 python main.py
 ```
 
-L'API sera disponible sur : `http://localhost:8000`
+The API will be available at: `http://localhost:8000`
 
-Documentation interactive : `http://localhost:8000/docs`
+Interactive documentation: `http://localhost:8000/docs`
 
-## 📖 Utilisation
+## 📖 Usage
 
-### 1. Télécharger un document PDF
+### 1. Upload a PDF document
 ```bash
 curl -X POST "http://localhost:8000/documents/upload" \
      -H "accept: application/json" \
@@ -40,7 +40,7 @@ curl -X POST "http://localhost:8000/documents/upload" \
      -F "file=@example.pdf"
 ```
 
-**Réponse :**
+**Response:**
 ```json
 {
   "message": "Document processed successfully",
@@ -62,39 +62,39 @@ curl -X POST "http://localhost:8000/documents/upload" \
 }
 ```
 
-### 2. Lister les documents analysés
+### 2. List analyzed documents
 ```bash
 curl -X GET "http://localhost:8000/documents"
 ```
 
-### 3. Obtenir les éléments d'un document
+### 3. Get elements from a document
 ```bash
-# Tous les éléments
+# All elements
 curl -X GET "http://localhost:8000/documents/{uuid}/elements"
 
-# Filtrer par type
+# Filter by type
 curl -X GET "http://localhost:8000/documents/{uuid}/elements?element_type=table"
 
-# Filtrer par page
+# Filter by page
 curl -X GET "http://localhost:8000/documents/{uuid}/elements?page_number=2"
 ```
 
-### 4. Consulter les statistiques
+### 4. View statistics
 ```bash
-# Statistiques d'un document
+# Document statistics
 curl -X GET "http://localhost:8000/documents/{uuid}/statistics"
 
-# Statistiques globales
+# Global statistics
 curl -X GET "http://localhost:8000/statistics/global"
 ```
 
-### 5. Exporter les données
+### 5. Export data
 ```bash
-# Export des tableaux en CSV
+# Export tables as CSV
 curl -X GET "http://localhost:8000/documents/{uuid}/export/tables" \
      --output tables.csv
 
-# Export des métadonnées (doc info et statistiques) en JSON
+# Export metadata (document info and statistics) as JSON
 curl -X GET "http://localhost:8000/documents/{uuid}/export/json" \
      --output metadata.json
 ```
@@ -102,98 +102,98 @@ curl -X GET "http://localhost:8000/documents/{uuid}/export/json" \
 ## 🏗️ Architecture
 
 ```
-├── main.py              # Point d'entrée FastAPI
-├── file_parser.py       # Extraction et classification d'éléments
-├── doc_storage.py       # Gestion base de données SQLite
-├── requirements.txt     # Dépendances Python
-└── README.md           # Ce fichier
+├── main.py              # FastAPI entry point
+├── file_parser.py       # Element extraction and classification
+├── doc_storage.py       # SQLite database management
+├── requirements.txt     # Python dependencies
+└── README.md           # This file
 ```
 
-### Composants principaux
+### Main Components
 
-- **`PDFExtractor`** : Analyse structurelle des PDF avec PyMuPDF
-- **`DocumentStorage`** : Couche d'abstraction base de données
-- **API REST** : Endpoints FastAPI pour toutes les opérations
+- **`PDFExtractor`**: Structural PDF analysis with PyMuPDF
+- **`DocumentStorage`**: Database abstraction layer
+- **REST API**: FastAPI endpoints for all operations
 
-## 📊 Types d'éléments détectés
+## 📊 Detected Element Types
 
-| Type | Critères de détection |
-|------|----------------------|
-| **Title** | Police ≥16pt + gras |
-| **Subtitle** | Police ≥14pt + gras |
-| **Section** | Police ≥12pt + gras OU ≥13pt + ≤20 mots |
-| **Paragraph** | Texte standard |
-| **List Item** | Patterns : •, 1., a), -, etc. |
-| **Table** | Détection automatique PyMuPDF |
-| **Image** | Extraction d'images intégrées |
+| Type | Detection Criteria |
+|------|-------------------|
+| **Title** | Font size ≥16pt + bold |
+| **Subtitle** | Font size ≥14pt + bold |
+| **Section** | Font size ≥12pt + bold OR ≥13pt + ≤20 words |
+| **Paragraph** | Standard text |
+| **List Item** | Patterns: •, 1., a), -, etc. |
+| **Table** | Automatic PyMuPDF detection |
+| **Image** | Embedded image extraction |
 
-## 📈 Statistiques calculées
+## 📈 Calculated Statistics
 
-### Par document
-- Nombre de titres, sections, tableaux, images
-- Profondeur hiérarchique moyenne
-- Densité de texte par page
-- Longueur moyenne des paragraphes
-- Distribution des sections par page
+### Per Document
+- Count of titles, sections, tables, images
+- Average hierarchical depth
+- Text density per page
+- Average paragraph length
+- Section distribution by page
 
-### Globales
-- Résumé par type d'élément
-- Moyennes sur tous les documents
-- Statistiques comparatives
+### Global
+- Summary by element type
+- Averages across all documents
+- Comparative statistics
 
 ## 🔧 Configuration
 
-### Base de données
-Par défaut : `pdf_documents.sqlite` dans le répertoire courant.
+### Database
+Default: `pdf_documents.sqlite` in the current directory.
 
-Pour modifier :
+To modify:
 ```python
 doc_storage = DocumentStorage(db_path="custom/path/documents.sqlite")
 ```
 
 ### Logging
-Les logs sont configurés au niveau INFO. Pour plus de détails :
+Logs are configured at INFO level. For more details:
 ```python
 logging.basicConfig(level=logging.DEBUG)
 ```
 
-## 🧪 Tests rapides
+## 🧪 Quick Tests
 
-### Vérification de l'installation
+### Installation verification
 ```bash
 curl -X GET "http://localhost:8000/health"
 ```
 
-### Test complet
-1. Télécharger un PDF de test
-2. Vérifier les statistiques générées
-3. Tester les exports CSV/JSON
-4. Consulter les statistiques globales
+### Complete test
+1. Upload a test PDF
+2. Verify generated statistics
+3. Test CSV/JSON exports
+4. Check global statistics
 
-## 🐛 Dépannage
+## 🐛 Troubleshooting
 
-### Erreurs communes
+### Common Errors
 
 **"Only PDF files are allowed"**
-- Vérifiez l'extension du fichier (.pdf)
+- Check the file extension (.pdf)
 
 **"Document not found"**
-- Vérifiez l'UUID retourné lors de l'upload
+- Verify the UUID returned during upload
 
 **"Error processing document"**
-- Vérifiez que le PDF n'est pas corrompu ou protégé
+- Check that the PDF is not corrupted or password-protected
 
 ### Logs
-Consultez les logs de l'application pour plus de détails sur les erreurs.
+Consult application logs for more details on errors.
 
-## 📝 Notes techniques
+## 📝 Technical Notes
 
-- **PyMuPDF** pour l'extraction PDF haute performance
-- **SQLite** avec index optimisés pour les requêtes
-- **FastAPI** avec validation automatique des données
-- **Classification basée sur les polices** pour l'identification des éléments
+- **PyMuPDF** for high-performance PDF extraction
+- **SQLite** with optimized indexes for queries
+- **FastAPI** with automatic data validation
+- **Font-based classification** for element identification
 
-## 🚀 Améliorations possibles
-- Export json et csv pour tout type de données.
-- Téléchargement possible pour les figures et images.
-- Traitement du contenu texte.
+## 🚀 Possible Improvements
+- JSON and CSV export for all data types
+- Download capability for figures and images
+- Text content processing
