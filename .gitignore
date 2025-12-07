@@ -1,0 +1,25 @@
+# misc
+.DS_Store
+*.pem
+
+# IDEs and editors
+*.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/launch.json
+__pycache__
+
+# Windows automatic ZoneIdentifier files
+*.pdf:Zone.Identifier
+data/*.pdf:Zone.Identifier
+
+# Data files
+*.csv
+*.json
+*.sqlite
+data/*
